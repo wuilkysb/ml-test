@@ -1,0 +1,15 @@
+FROM golang:1.13
+ARG SSH_PRIVATE_KEY
+RUN mkdir /root/.ssh/
+RUN echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa && chmod 400 /root/.ssh/id_rsa
+RUN touch /root/.ssh/known_hosts
+RUN ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
+RUN git config --global url."git@bitbucket.org:".insteadOf "https://bitbucket.org/"
+
+WORKDIR $GOPATH/src/bitbucket.org/rappinc/one-catalog-management
+COPY ./go.* ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+RUN go mod vendor
+CMD ./app

@@ -1,0 +1,1 @@
+DROP INDEX mutants_dna_key;

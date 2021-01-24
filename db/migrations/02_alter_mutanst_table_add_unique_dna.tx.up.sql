@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX mutants_dna_key ON public.mutants(dna);
