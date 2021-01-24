@@ -1,0 +1,22 @@
+go.mod
+go.sum
+contrib/google.golang.org/grpc.v12/grpcv12_go.mod
+contrib/google.golang.org/grpc.v12/grpcv12_go.sum
+
+# go
+bin/
+
+# profiling
+*.test
+*.out
+
+# generic
+.DS_Store
+*.cov
+*.lock
+*.swp
+
+# IntelliJ
+.idea
+
+/contrib/google.golang.org/grpc.v12/vendor/
