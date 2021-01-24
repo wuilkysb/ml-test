@@ -9,7 +9,6 @@ import (
 
 type Config struct {
 	Port              string        `required:"true" split_words:"true"`
-	ServerHost        string        `required:"true" split_words:"true"`
 	Postfix           string        `required:"true"`
 	PgHost            string        `required:"true" split_words:"true"`
 	PgPort            int           `required:"true" split_words:"true"`
