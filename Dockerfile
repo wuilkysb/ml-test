@@ -1,7 +1,4 @@
-FROM golang:1.13 AS builder
-RUN touch /root/.ssh/known_hosts
-RUN ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
-
+FROM golang:1.15 AS builder
 WORKDIR /go/src/ml-mutant-test
 COPY ./go.* ./
 RUN go mod download
