@@ -1,1 +1,1 @@
-web: ml-mutant-test
+web: bin/server
