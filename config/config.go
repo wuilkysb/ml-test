@@ -19,7 +19,6 @@ type Config struct {
 	PgTimeout         time.Duration `required:"true" split_words:"true"`
 	PgPoolSize        int           `required:"true" split_words:"true"`
 	MigrationsCommand string        `required:"true" split_words:"true"`
-	XApplicationId    string        `required:"true" split_words:"true"`
 }
 
 var once sync.Once
