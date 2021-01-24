@@ -1,1 +1,1 @@
-web: /bin/ml-mutant-test
+web: ml-mutant-test
