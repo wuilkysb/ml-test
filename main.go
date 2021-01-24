@@ -17,7 +17,7 @@ func main() {
 
 	migrations.StartConfiguration()
 	err := container.Invoke(func(server *echo.Echo, route *router.Router) {
-		address := fmt.Sprintf(":%s", config.Environments().ServerPort)
+		address := fmt.Sprintf(":%s", config.Environments().Port)
 
 		route.Init()
 		server.Logger.Fatal(server.Start(address))
