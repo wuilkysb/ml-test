@@ -1,13 +1,13 @@
 package main
 
 import (
+	"fmt"
+	"github.com/labstack/echo/v4"
+	"github.com/signalfx/signalfx-go-tracing/tracing"
 	"ml-mutant-test/config"
 	"ml-mutant-test/db/migrations"
 	"ml-mutant-test/providers"
 	"ml-mutant-test/router"
-	"fmt"
-	"github.com/labstack/echo/v4"
-	"github.com/signalfx/signalfx-go-tracing/tracing"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 
 	migrations.StartConfiguration()
 	err := container.Invoke(func(server *echo.Echo, route *router.Router) {
-		address := fmt.Sprintf("%s:%s", config.Environments().ServerHost, config.Environments().ServerPort)
+		address := fmt.Sprintf(":%s", config.Environments().ServerPort)
 
 		route.Init()
 		server.Logger.Fatal(server.Start(address))
