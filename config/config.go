@@ -20,14 +20,14 @@ type Config struct {
 }
 
 var once sync.Once
-var c Config
+var C Config
 
 func Environments() Config {
 	once.Do(func() {
-		if err := envconfig.Process("", &c); err != nil {
+		if err := envconfig.Process("", &C); err != nil {
 			log.Errorf("Error parsing environment vars %#v", err)
 		}
 	})
 
-	return c
+	return C
 }

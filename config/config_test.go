@@ -9,7 +9,7 @@ import (
 
 func TestEnvironments_WhenAllVarsAreSet(t *testing.T) {
 	Environments()
-	assert.Equal(t, c.MigrationsCommand, "run")
+	assert.Equal(t, "run", C.MigrationsCommand)
 }
 
 func TestEnvironments_WhenSomeVarIsMissed(t *testing.T) {
