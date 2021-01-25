@@ -27,14 +27,13 @@ func (r *MutantRepository) Create(mutant *models.Mutant) {
 
 func (r *MutantRepository) GetByDNA(dna []string) (models.Mutant, error) {
 	var mutant models.Mutant
-	if err := r.db.Model(&mutant).Where("dna = ?", pg.Array(dna)).Select(); err != nil {
-		log.Error("get error: %s", err.Error())
+	if err := r.db.Model(&mutant).Where("dna = upper(?)", pg.Array(dna)).Select(); err != nil {
 		return mutant, err
 	}
 	return mutant, nil
 }
 
-func (r *MutantRepository) GetStats() models.Stats {
+func (r *MutantRepository) GetStats() (models.Stats, error) {
 	var stats models.Stats
 	if err := r.db.Model().
 		With("is_mutants", r.db.Model().TableExpr("mutants").ColumnExpr("count(id) as total").Where("is_mutant is true")).
@@ -46,8 +45,8 @@ func (r *MutantRepository) GetStats() models.Stats {
 		Join("JOIN is_humans on true").
 		Group("count_human_dna").Group("count_mutant_dna").Group("ratio").Select(&stats); err != nil {
 			log.Infof("stats error: %s", err.Error())
-			return stats
+			return stats, err
 	}
 
-	return stats
+	return stats, nil
 }

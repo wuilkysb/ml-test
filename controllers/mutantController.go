@@ -35,5 +35,9 @@ func (controller *MutantController) IsMutant(c echo.Context) error {
 }
 
 func (controller *MutantController) Stats(c echo.Context) error {
-	return c.JSON(http.StatusOK, controller.service.Stats())
+	result, err := controller.service.Stats()
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "error trying get stats")
+	}
+	return c.JSON(http.StatusOK, result)
 }

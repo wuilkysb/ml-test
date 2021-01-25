@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/thoas/go-funk"
 	"ml-mutant-test/db/models"
 	"ml-mutant-test/interfaces/repository"
@@ -25,7 +26,7 @@ func NewMutantService(repository repository.MutantRepositoryInterface) services.
 }
 
 
-func (s *mutantService) Stats() models.Stats {
+func (s *mutantService) Stats() (models.Stats, error) {
 	return s.repository.GetStats()
 }
 
@@ -34,13 +35,14 @@ func (s *mutantService) IsMutant(dna []string) bool {
 		return mutant.IsMutant
 	}
 	var dnaInput [][]string
+	N := len(dna)
 	for i := range dna {
-		if len(dna) != len(dna[i]) {
+		if N != len(dna[i]) {
 			return false
 		}
 		dnaInput = append(dnaInput, strings.Split(strings.ToLower(dna[i]), ""))
 	}
-	isMutant := mainSearch(dnaInput)
+	isMutant := sequencesSearch(dnaInput)
 	mutant := &models.Mutant{
 		DNA:      dna,
 		IsMutant: isMutant,
@@ -49,12 +51,12 @@ func (s *mutantService) IsMutant(dna []string) bool {
 	return isMutant
 }
 
-func mainSearch(puzzle [][]string) bool {
+func sequencesSearch(puzzle [][]string) bool {
 	result := make([]string, 0, 0)
 	N := len(puzzle)
 	for row := 0; row < N; row++ {
 		for col := 0; col < N; col++ {
-			w := findWord(puzzle, col, row, N, N)
+			w := FindSequence(puzzle, col, row, N, N)
 			if len(w) > 0 {
 				result = append(result, w...)
 			}
@@ -64,8 +66,8 @@ func mainSearch(puzzle [][]string) bool {
 	return len(result) > 1
 }
 
-func findWord(puzzle [][]string, xPos int, yPos int, xSize int, ySize int) []string {
-	resultUL, resultU, resultUR, resultR := "", "", "", ""
+func FindSequence(puzzle [][]string, xPos int, yPos int, xSize int, ySize int) []string {
+	var resultUL, resultU, resultUR, resultR string
 	for i := 0; i < SequenceLength; i++ {
 		if (0 <= (xPos-SequenceLength+1) && xPos <= xSize) && (0 <= (yPos-SequenceLength+1) && yPos <= ySize) {
 			resultUL += puzzle[yPos-i][xPos-i]
@@ -75,6 +77,7 @@ func findWord(puzzle [][]string, xPos int, yPos int, xSize int, ySize int) []str
 		}
 		if 0 <= (yPos-SequenceLength+1) && yPos <= ySize {
 			resultU += puzzle[yPos-i][xPos]
+			fmt.Println(yPos)
 		}
 		if 0 <= xPos && (xPos+SequenceLength) <= xSize {
 			resultR += puzzle[yPos][xPos+i]
