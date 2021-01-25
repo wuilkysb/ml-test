@@ -51,12 +51,12 @@ func (s *mutantService) IsMutant(dna []string) bool {
 	return isMutant
 }
 
-func sequencesSearch(puzzle [][]string) bool {
+func sequencesSearch(dnaMatrix [][]string) bool {
 	result := make([]string, 0, 0)
-	N := len(puzzle)
+	N := len(dnaMatrix)
 	for row := 0; row < N; row++ {
 		for col := 0; col < N; col++ {
-			w := FindSequence(puzzle, col, row, N, N)
+			w := FindSequence(dnaMatrix, col, row, N, N)
 			if len(w) > 0 {
 				result = append(result, w...)
 			}
@@ -66,21 +66,21 @@ func sequencesSearch(puzzle [][]string) bool {
 	return len(result) > 1
 }
 
-func FindSequence(puzzle [][]string, xPos int, yPos int, xSize int, ySize int) []string {
+func FindSequence(dnaMatrix [][]string, xPos int, yPos int, xSize int, ySize int) []string {
 	var resultUL, resultU, resultUR, resultR string
 	for i := 0; i < SequenceLength; i++ {
 		if (0 <= (xPos-SequenceLength+1) && xPos <= xSize) && (0 <= (yPos-SequenceLength+1) && yPos <= ySize) {
-			resultUL += puzzle[yPos-i][xPos-i]
+			resultUL += dnaMatrix[yPos-i][xPos-i]
 		}
 		if (0 <= (yPos-SequenceLength+1) && yPos <= ySize) && (0 <= xPos && (xPos+SequenceLength) <= xSize) {
-			resultUR += puzzle[yPos-i][xPos+i]
+			resultUR += dnaMatrix[yPos-i][xPos+i]
 		}
 		if 0 <= (yPos-SequenceLength+1) && yPos <= ySize {
-			resultU += puzzle[yPos-i][xPos]
+			resultU += dnaMatrix[yPos-i][xPos]
 			fmt.Println(yPos)
 		}
 		if 0 <= xPos && (xPos+SequenceLength) <= xSize {
-			resultR += puzzle[yPos][xPos+i]
+			resultR += dnaMatrix[yPos][xPos+i]
 		}
 	}
 
