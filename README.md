@@ -50,4 +50,5 @@ $ go test ./...
 ```
 
 * get stats:
-``` curl --location --request GET 'https://ml-mutant-w.herokuapp.com/mutant/stats' ```
+``` 
+curl --location --request GET 'https://ml-mutant-w.herokuapp.com/mutant/stats' ```
